@@ -29,6 +29,10 @@ app.use((req, res, next) => {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~Missions~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.get('/missions', (req, res) => {
+   res.send('Welcome to Englingo Missions Service');
+});
+
+app.get('/missions', (req, res) => {
     Mission.find()
         .then((result) => {
             res.send(result);

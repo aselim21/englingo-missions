@@ -1,0 +1,27 @@
+{
+  "name": "englingo-missions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aselim21/englingo-missions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aselim21/englingo-missions/issues"
+  },
+  "homepage": "https://github.com/aselim21/englingo-missions#readme",
+  "dependencies": {
+    "datamuse": "^1.0.5",
+    "express": "^4.17.1",
+    "init": "^0.1.2",
+    "mongoose": "^6.1.1",
+    "winston": "^3.3.3",
+    "winston-mongodb": "^5.0.7"
+  }
+}

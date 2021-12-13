@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 app.get('/missions', (req, res) => {
     Mission.find()
         .then((result) => {
+            if(!result) res.send(-1);
             res.send(result);
         }).catch(err => {
             res.status(400).json("Error: " + err);
@@ -45,6 +46,7 @@ app.get('/missions', (req, res) => {
 app.get('/missions/:id', (req, res) => {
     const the_mission_id = req.params.id;
     Mission.findById(the_mission_id).then((the_mission) => {
+        if(!the_mission) res.send(-1);
         res.send(the_mission);
     }).catch(err => {
         res.status(400).json("Error: " + err);
@@ -54,6 +56,7 @@ app.get('/missions/:id', (req, res) => {
 app.get('/missions/match/:id', (req, res) => {
     const the_match_id = req.params.id;
     Mission.findOne({ match_id: the_match_id }).then((the_mission) => {
+        if(!the_mission) res.send(-1);
         res.send(the_mission);
     }).catch(err => {
         res.status(400).json("Error: " + err);

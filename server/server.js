@@ -91,7 +91,7 @@ app.post('/missions', (req, res) => {
 
             //create a new mission
             new Mission({
-                'topic_level2': topic2,
+                'topic_level2': topic2.word,
                 'words': mission_words_level2,
                 'user1_id': the_user1,
                 'user2_id': the_user2,

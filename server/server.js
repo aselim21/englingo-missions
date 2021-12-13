@@ -53,7 +53,7 @@ app.get('/missions/:id', (req, res) => {
 });
 app.get('/missions/match/:id', (req, res) => {
     const the_match_id = req.params.id;
-    Mission.find({ match_id: the_match_id }).then((the_mission) => {
+    Mission.findOne({ match_id: the_match_id }).then((the_mission) => {
         res.send(the_mission);
     }).catch(err => {
         res.status(400).json("Error: " + err);

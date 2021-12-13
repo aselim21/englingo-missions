@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~Missions~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.get('/', (req, res) => {
-   res.send('Welcome to Englingo Missions Service');
+    res.send('Welcome to Englingo Missions Service');
 });
 
 app.get('/missions', (req, res) => {
@@ -44,7 +44,7 @@ app.get('/missions', (req, res) => {
 
 app.get('/missions/:id', (req, res) => {
     const the_mission_id = req.params.id;
-    Mission.findById(the_mission_id).then((the_mission)=>{
+    Mission.findById(the_mission_id).then((the_mission) => {
         res.send(the_mission);
     }).catch(err => {
         res.status(400).json("Error: " + err);
@@ -53,7 +53,7 @@ app.get('/missions/:id', (req, res) => {
 });
 app.get('/missions/match/:id', (req, res) => {
     const the_match_id = req.params.id;
-    Mission.find({match_id:the_match_id}).then((the_mission)=>{
+    Mission.find({ match_id: the_match_id }).then((the_mission) => {
         res.send(the_mission);
     }).catch(err => {
         res.status(400).json("Error: " + err);
@@ -63,9 +63,13 @@ app.get('/missions/match/:id', (req, res) => {
 
 app.post('/missions', (req, res) => {
 
+    const the_topic = req.body.topic;
+    const the_user1 = req.body.user1_id;
+    const the_user2 = req.body.user2_id;
+    const the_matchId = req.body.match_id;
     //generate a topic(word) from second level associated words
     //level1
-    const the_topic = req.body.topic
+
     datamuse.request('/words?rel_trg=' + the_topic).then((datajson) => {
         let words_level1 = JSON.parse(JSON.stringify(datajson));
 
@@ -87,21 +91,21 @@ app.post('/missions', (req, res) => {
 
             //create a new mission
             new Mission({
-                'topic': req.body.topic,
+                'topic_level2': topic2,
                 'words': mission_words_level2,
-                'user1_id': req.body.user1_id,
-                'user2_id': req.body.user2_id,
-                'match_id':req.body.match_id
+                'user1_id': the_user1,
+                'user2_id': the_user2,
+                'match_id': the_matchId
             }).save().then((result) => {
                 logger.info(`POST-participant => ${result}`);
-                
+
                 //return the ID of the new Mission
                 res.location(`/missions/${result._id}`);
                 res.send(result._id);
             }).catch(err => {
-                    res.status(400).json("Error: " + err);
-                    logger.error("Error saving the new Purchase", err);
-                });
+                res.status(400).json("Error: " + err);
+                logger.error("Error saving the new Purchase", err);
+            });
         })
     });
 });

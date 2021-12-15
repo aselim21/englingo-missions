@@ -87,10 +87,23 @@ app.post('/missions', (req, res) => {
 
             //get 5 words randomly from the associated words with topic2
             let mission_words_level2 = [];
-            for (let i = 0; i < 5; i++) {
+
+            let i = 0;
+            while(i < 5){
                 let random = Math.floor(Math.random() * words_level2.length);
-                mission_words_level2.push(words_level2[random].word);
+                const word_exists =  mission_words_level2.findIndex(element => element == words_level2[random].word);
+                //If we have already chosen this word, then don't save it 
+                if(word_exists != -1) {
+                    mission_words_level2.push(words_level2[random].word);
+                    i++;
+                }
             }
+            // for (let i = 0; i < 5; i++) {
+            //     let random = Math.floor(Math.random() * words_level2.length);
+            //     //if this word doen't exist
+
+            //     mission_words_level2.push(words_level2[random].word);
+            // }
 
             //create a new mission
             new Mission({

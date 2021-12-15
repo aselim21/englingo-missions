@@ -92,8 +92,9 @@ app.post('/missions', (req, res) => {
             while(i < 5){
                 let random = Math.floor(Math.random() * words_level2.length);
                 const word_exists =  mission_words_level2.findIndex(element => element == words_level2[random].word);
+                console.log(words_level2[random].word)
                 //If we have already chosen this word, then don't save it 
-                if(word_exists != -1) {
+                if(word_exists == -1) {
                     mission_words_level2.push(words_level2[random].word);
                     i++;
                 }

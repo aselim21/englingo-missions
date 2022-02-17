@@ -3,15 +3,6 @@ const { format, transports } = winston
 const path = require('path');
 require('winston-mongodb');
 
-//DONT USE
-// const MongoDB_Logs_URL = process.env.DATABASE_URL; 
-
-//BUG -- Access to fetch at 'https://englingo-missions.herokuapp.com/missions' from origin 'https://englingo.herokuapp.com/' 
-//has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' 
-//header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the 
-//resource with CORS disabled.room.js:377
-
-
 const logFormat = format.printf(info => `${info.timestamp} ${info.level} [${info.label}]: ${info.message}`)
 
 function buildProdLogger() {

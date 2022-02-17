@@ -4,42 +4,38 @@ const app = express();
 app.use(express.json());
 const logger = require('./logger');
 app.use(express.static("src"));
-//process.env.DATABASE_URL
-const MongodbURI =  "mongodb+srv://englingo-admin:admin123@cluster0.enlfp.mongodb.net/englingo-missions?retryWrites=true&w=majority";
+const MongodbURI = "mongodb+srv://englingo-admin:admin123@cluster0.enlfp.mongodb.net/englingo-missions?retryWrites=true&w=majority";
 const Log = require('./models/log-model.js');
 const Mission = require('./models/mission-model.js');
 const datamuse = require('datamuse');
 const PORT = process.env.PORT || 3000;
-// const serverURL_Englingo = process.env.ENGLINGO_URL;
-// const serverURL_Matching_Signaling = process.env.MATCHING_SIGNALING_SERVICE_URL;
 
 app.use((req, res, next) => {
     const corsWhitelist = [
         'https://webrtc-englingo.herokuapp.com',
+        'http://127.0.0.1:3000',
+        'http://localhost:3000',
         'https://englingo.herokuapp.com'
-        // serverURL_Matching_Signaling,
-        // serverURL_Englingo
     ];
     if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
         res.header('Access-Control-Allow-Origin', req.headers.origin);
     }
-    // res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Cookie, Set-Cookie, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, HEAD');
     next();
 });
 
-//-----------------------------Missions-----------------------------
+//~~~~~~~~~~~~~~~~~~~~~~~~~~Missions~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.get('/', (req, res) => {
     res.send('Welcome to Englingo Missions Service');
 });
 
-//read all the missions
 app.get('/missions', (req, res) => {
     Mission.find()
         .then((result) => {
-            if (!result) res.status(200).json('-1');
+            if(!result) res.status(200).json('-1');
             res.send(result);
         }).catch(err => {
             res.status(400).json("Error: " + err);
@@ -47,23 +43,20 @@ app.get('/missions', (req, res) => {
         });
 });
 
-//get the missionInfo for a specific missionId
 app.get('/missions/:id', (req, res) => {
     const the_mission_id = req.params.id;
     Mission.findById(the_mission_id).then((the_mission) => {
-        if (!the_mission) res.status(200).json('-1');
+        if(!the_mission) res.status(200).json('-1');
         res.send(the_mission);
     }).catch(err => {
         res.status(400).json("Error: " + err);
         logger.error(err);
     });
 });
-
-//get the missionInfo for a specific matchId
 app.get('/missions/match/:id', (req, res) => {
     const the_match_id = req.params.id;
     Mission.findOne({ match_id: the_match_id }).then((the_mission) => {
-        if (!the_mission) res.status(200).json('-1');
+        if(!the_mission) res.status(200).json('-1');
         res.send(the_mission);
     }).catch(err => {
         res.status(400).json("Error: " + err);
@@ -71,15 +64,15 @@ app.get('/missions/match/:id', (req, res) => {
     });
 });
 
-//create a new Mission
 app.post('/missions', (req, res) => {
+
     const the_topic = req.body.topic;
     const the_user1 = req.body.user1_id;
     const the_user2 = req.body.user2_id;
     const the_matchId = req.body.match_id;
-    
     //generate a topic(word) from second level associated words
-    //--LEVEL 1--
+    //level1
+
     datamuse.request('/words?rel_trg=' + the_topic).then((datajson) => {
         let words_level1 = JSON.parse(JSON.stringify(datajson));
 
@@ -89,7 +82,6 @@ app.post('/missions', (req, res) => {
 
         //search for associated words with the topic2 (from second level)
         //topic2 becomes our main topic for the mission
-        //--LEVEL 2--
         datamuse.request('/words?rel_trg=' + topic2.word).then((datajson_level2) => {
             let words_level2 = JSON.parse(JSON.stringify(datajson_level2));
 
@@ -97,15 +89,23 @@ app.post('/missions', (req, res) => {
             let mission_words_level2 = [];
 
             let i = 0;
-            while (i < 5) {
+            while(i < 5){
                 let random = Math.floor(Math.random() * words_level2.length);
-                const word_exists = mission_words_level2.findIndex(element => element == words_level2[random].word);
+                const word_exists =  mission_words_level2.findIndex(element => element == words_level2[random].word);
+                console.log(words_level2[random].word)
                 //If we have already chosen this word, then don't save it 
-                if (word_exists == -1) {
+                if(word_exists == -1) {
                     mission_words_level2.push(words_level2[random].word);
                     i++;
                 }
             }
+            // for (let i = 0; i < 5; i++) {
+            //     let random = Math.floor(Math.random() * words_level2.length);
+            //     //if this word doen't exist
+
+            //     mission_words_level2.push(words_level2[random].word);
+            // }
+
             //create a new mission
             new Mission({
                 'topic_level2': topic2.word,
@@ -115,6 +115,7 @@ app.post('/missions', (req, res) => {
                 'match_id': the_matchId
             }).save().then((result) => {
                 logger.info(`POST-participant => ${result}`);
+
                 //return the ID of the new Mission
                 res.location(`/missions/${result._id}`);
                 res.send(result._id);
@@ -126,7 +127,7 @@ app.post('/missions', (req, res) => {
     });
 });
 
-//-----------------------------LOGS-----------------------------
+//----------------------LOGS-------------------
 //get all logs of the service
 app.get('/logs', (req, res) => {
     Log.find()
@@ -145,4 +146,5 @@ mongoose.connect(MongodbURI, { useNewUrlParser: true, useUnifiedTopology: true }
     }))
     .catch(err => {
         logger.error(err);
+        res.status(400).json("Error: " + err)
     });

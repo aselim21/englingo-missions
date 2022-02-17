@@ -118,7 +118,7 @@ app.post('/missions', (req, res) => {
 
                 //return the ID of the new Mission
                 res.location(`/missions/${result._id}`);
-                res.send(result._id);
+                res.status(200).send(result);
             }).catch(err => {
                 res.status(400).json("Error: " + err);
                 logger.error("Error saving the new Purchase", err);

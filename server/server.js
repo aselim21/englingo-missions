@@ -3,12 +3,18 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(express.json());
 const logger = require('./logger');
+const cors = require('cors')
 app.use(express.static("src"));
 const MongodbURI = "mongodb+srv://englingo-admin:admin123@cluster0.enlfp.mongodb.net/englingo-missions?retryWrites=true&w=majority";
 const Log = require('./models/log-model.js');
 const Mission = require('./models/mission-model.js');
 const datamuse = require('datamuse');
 const PORT = process.env.PORT || 3000;
+
+const corsOptions = {
+    origin: ["https://englingo.herokuapp.com"]
+  };
+app.use(cors(corsOptions));
 
 // app.use((req, res, next) => {
 //     const corsWhitelist = [
@@ -26,23 +32,23 @@ const PORT = process.env.PORT || 3000;
 //     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, HEAD');
 //     next();
 // });
-app.use((req, res, next) => {
-    const corsWhitelist = [
-      'https://webrtc-englingo.herokuapp.com',
-      'http://127.0.0.1:3000',
-      'http://localhost:3000',
-      'https://englingo.herokuapp.com',
-      'https://englingo-missions.herokuapp.com'
-    ];
-    if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
-      res.header('Access-Control-Allow-Origin', req.headers.origin);
-    }
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Cookie, Set-Cookie, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, HEAD');
-    next();
-  });
+// app.use((req, res, next) => {
+//     const corsWhitelist = [
+//       'https://webrtc-englingo.herokuapp.com',
+//       'http://127.0.0.1:3000',
+//       'http://localhost:3000',
+//       'https://englingo.herokuapp.com',
+//       'https://englingo-missions.herokuapp.com'
+//     ];
+//     if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
+//       res.header('Access-Control-Allow-Origin', req.headers.origin);
+//     }
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Cookie, Set-Cookie, Authorization');
+//     res.header('Access-Control-Allow-Credentials', 'true');
+//     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, HEAD');
+//     next();
+//   });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~Missions~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.get('/', (req, res) => {
     res.send('Welcome to Englingo Missions Service');

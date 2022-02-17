@@ -9,13 +9,15 @@ const Log = require('./models/log-model.js');
 const Mission = require('./models/mission-model.js');
 const datamuse = require('datamuse');
 const PORT = process.env.PORT || 3000;
-const serverURL_Englingo = process.env.ENGLINGO_URL;
-const serverURL_Matching_Signaling = process.env.MATCHING_SIGNALING_SERVICE_URL;
+// const serverURL_Englingo = process.env.ENGLINGO_URL;
+// const serverURL_Matching_Signaling = process.env.MATCHING_SIGNALING_SERVICE_URL;
 
 app.use((req, res, next) => {
     const corsWhitelist = [
-        serverURL_Matching_Signaling,
-        serverURL_Englingo
+        'https://webrtc-englingo.herokuapp.com',
+        'https://englingo.herokuapp.com'
+        // serverURL_Matching_Signaling,
+        // serverURL_Englingo
     ];
     if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
         res.header('Access-Control-Allow-Origin', req.headers.origin);

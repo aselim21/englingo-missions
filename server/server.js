@@ -4,7 +4,8 @@ const app = express();
 app.use(express.json());
 const logger = require('./logger');
 app.use(express.static("src"));
-const MongodbURI = process.env.DATABASE_URL;
+//process.env.DATABASE_URL
+const MongodbURI =  "mongodb+srv://englingo-admin:admin123@cluster0.enlfp.mongodb.net/englingo-missions?retryWrites=true&w=majority";
 const Log = require('./models/log-model.js');
 const Mission = require('./models/mission-model.js');
 const datamuse = require('datamuse');
@@ -144,5 +145,4 @@ mongoose.connect(MongodbURI, { useNewUrlParser: true, useUnifiedTopology: true }
     }))
     .catch(err => {
         logger.error(err);
-        res.status(400).json("Error: " + err)
     });

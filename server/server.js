@@ -18,7 +18,7 @@ app.use((req, res, next) => {
         'https://englingo.herokuapp.com',
         'https://englingo.herokuapp.com/rooms'
     ];
-    logger.info("Printing the req.headers.origin", req.headers.origin);
+    logger.info(`Printing the req.headers.origin : ${req.headers.origin}` );
     if (corsWhitelist.indexOf(req.headers.origin) != -1) {
         res.header('Access-Control-Allow-Origin', req.headers.origin);
     }

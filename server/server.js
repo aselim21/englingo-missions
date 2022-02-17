@@ -3,16 +3,15 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(express.json());
 const logger = require('./logger');
-const cors = require('cors')
 app.use(express.static("src"));
 const MongodbURI = "mongodb+srv://englingo-admin:admin123@cluster0.enlfp.mongodb.net/englingo-missions?retryWrites=true&w=majority";
 const Log = require('./models/log-model.js');
 const Mission = require('./models/mission-model.js');
 const datamuse = require('datamuse');
 const PORT = process.env.PORT || 3000;
-
+const cors = require('cors')
 const corsOptions = {
-    origin: ["https://englingo.herokuapp.com"]
+    origin: ["https://englingo.herokuapp.com", "https://englingo-missions.herokuapp.com", "https://englingo-evaluation.herokuapp.com", "https://webrtc-englingo.herokuapp.com"]
   };
 app.use(cors(corsOptions));
 

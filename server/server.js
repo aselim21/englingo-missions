@@ -10,6 +10,22 @@ const Mission = require('./models/mission-model.js');
 const datamuse = require('datamuse');
 const PORT = process.env.PORT || 3000;
 
+// app.use((req, res, next) => {
+//     const corsWhitelist = [
+//         'https://webrtc-englingo.herokuapp.com',
+//         'http://127.0.0.1:3000',
+//         'http://localhost:3000',
+//         'https://englingo.herokuapp.com'
+//     ];
+//     if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
+//         res.header('Access-Control-Allow-Origin', req.headers.origin);
+//     }
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Headers', ''Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Credentials, Cookie, Set-Cookie, Authorization', Access-Control-Allow-Origin');
+//     res.header('Access-Control-Allow-Credentials', 'true');
+//     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, HEAD');
+//     next();
+// });
 app.use((req, res, next) => {
     const corsWhitelist = [
         'https://webrtc-englingo.herokuapp.com',
@@ -21,12 +37,11 @@ app.use((req, res, next) => {
         res.header('Access-Control-Allow-Origin', req.headers.origin);
     }
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Cookie, Set-Cookie, Authorization, Access-Control-Allow-Origin');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Credentials, Cookie, Set-Cookie, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, HEAD');
     next();
 });
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~Missions~~~~~~~~~~~~~~~~~~~~~~~~~~
 app.get('/', (req, res) => {
     res.send('Welcome to Englingo Missions Service');

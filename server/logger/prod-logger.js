@@ -23,7 +23,7 @@ function buildProdLogger() {
       )
     }),
     new transports.MongoDB({
-        db : MongoDB_Logs_URL,
+        db : 'mongodb+srv://englingo-admin:admin123@cluster0.enlfp.mongodb.net/englingo-missions?retryWrites=true&w=majority',
         useUnifiedTopology: true ,
         collection: 'logs'
     })

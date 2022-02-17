@@ -15,12 +15,14 @@ app.use((req, res, next) => {
         'https://webrtc-englingo.herokuapp.com',
         'http://127.0.0.1:3000',
         'http://localhost:3000',
-        'https://englingo.herokuapp.com'
+        'https://englingo.herokuapp.com',
+        'https://englingo.herokuapp.com/rooms'
     ];
-    if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
+    logger.info("Printing the req.headers.origin", req.headers.origin);
+    if (corsWhitelist.indexOf(req.headers.origin) != -1) {
         res.header('Access-Control-Allow-Origin', req.headers.origin);
     }
-    res.header('Access-Control-Allow-Origin', '*');
+    // res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept,Access-Control-Allow-Headers, Access-Control-Allow-Credentials, Access-Control-Allow-Methods, Cookie, Set-Cookie, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS, HEAD');

@@ -123,14 +123,8 @@ app.post('/missions', (req, res) => {
                 res.status(400).json("Error: " + err);
                 logger.error("Error saving the new Purchase", err);
             });
-        }).catch(err => {
-            res.status(400).json("Error: " + err);
-            logger.error("Error from Datamuse API - level 2", err);
-        });
-    }).catch(err => {
-        res.status(400).json("Error: " + err);
-        logger.error("Error from Datamuse API - level 1", err);
-    });;
+        })
+    });
 });
 
 //----------------------LOGS-------------------

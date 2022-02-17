@@ -2,6 +2,7 @@ const winston = require('winston')
 const { format, transports } = winston
 const path = require('path');
 require('winston-mongodb');
+const MongoDB_Logs_URL = process.env.DATABASE_URL;
 
 const logFormat = format.printf(info => `${info.timestamp} ${info.level} [${info.label}]: ${info.message}`)
 
@@ -22,7 +23,7 @@ function buildProdLogger() {
       )
     }),
     new transports.MongoDB({
-        db : 'mongodb+srv://englingo-admin:admin123@cluster0.enlfp.mongodb.net/englingo-missions?retryWrites=true&w=majority',
+        db : MongoDB_Logs_URL,
         useUnifiedTopology: true ,
         collection: 'logs'
     })

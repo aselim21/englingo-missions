@@ -14,10 +14,8 @@ const serverURL_Matching_Signaling = process.env.MATCHING_SIGNALING_SERVICE_URL;
 
 app.use((req, res, next) => {
     const corsWhitelist = [
-        'https://webrtc-englingo.herokuapp.com',
-        'https://englingo.herokuapp.com'
-        // serverURL_Matching_Signaling,
-        // serverURL_Englingo
+        serverURL_Matching_Signaling,
+        serverURL_Englingo
     ];
     if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
         res.header('Access-Control-Allow-Origin', req.headers.origin);

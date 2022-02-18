@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const mission_schema = new Schema({
-    mission_id: String,
     topic_level2: String,
     words: [String],
     user1_id: String,

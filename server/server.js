@@ -11,7 +11,7 @@ const datamuse = require('datamuse');
 const PORT = process.env.PORT || 3000;
 const cors = require('cors')
 const corsOptions = {
-    origin: ["https://englingo.herokuapp.com", "https://englingo-missions.herokuapp.com", "https://englingo-evaluation.herokuapp.com", "https://webrtc-englingo.herokuapp.com"],
+    origin: ["https://englingo.herokuapp.com", "https://englingo-missions.herokuapp.com", "https://englingo-evaluations.herokuapp.com", "https://webrtc-englingo.herokuapp.com"],
     credentials: true
 };
 app.use(cors(corsOptions));
